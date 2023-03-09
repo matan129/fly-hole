@@ -33,10 +33,15 @@ Not yet implemented:
     $ flyctl ips allocate-v4  # or allocate-v6
     ```
 
-3. Finally,
+4. Setup the password for the admin panel:
+    ```
+    $ flyctl secrets set WBEPASSWORD=a-good-password
+    ```
+
+5. Finally,
     ```
     $ flyctl deploy
     ```
 
-4. DNS shall be served from `APP-NAME.fly.dev` over DoT, TCP port 853.
+6. DNS shall be served from `APP-NAME.fly.dev` over DoT, TCP port 853. The admin panel is available at `APP-NAME.fly.dev/admin`.
 
