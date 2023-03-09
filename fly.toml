@@ -1,0 +1,52 @@
+kill_signal = "SIGINT"
+kill_timeout = 5
+
+[env]
+  DNSMASQ_LISTENING = "all"
+  INTERFACE = "eth0"
+  PH_VOLUME = "/mnt/ph_data"
+
+[mounts]
+  destination = "/mnt/ph_data"
+  source = "ph_data"
+
+# Web interface - admin panel
+[[services]]
+  internal_port = 80
+  protocol = "tcp"
+
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.ports]]
+    force_https = true
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+# DNS tcp/53 -> DNS-over-TLS tcp/853
+[[services]]
+  internal_port = 53
+  protocol = "tcp"
+  
+  [services.concurrency]
+    hard_limit = 150
+    soft_limit = 100
+    type = "connections"
+  
+  # fly.io does TLS termination here
+  [[services.ports]]
+    handlers = ["tls"]
+    port = 853
+
+  [[services.tcp_checks]]
+    grace_period = "30s"
+    interval = "15s"
+    restart_limit = 1
+    timeout = "2s"
+
