@@ -28,6 +28,11 @@ Not yet implemented:
     $ flyctl vol create ph_data --region REGION --size 1
     ```
 
+3. Allocate a public IP address, so the instance will be reachable:
+    ```
+    $ flyctl ips allocate-v4  # or allocate-v6
+    ```
+
 3. Finally,
     ```
     $ flyctl deploy
